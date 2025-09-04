@@ -1,45 +1,47 @@
-'use client'
+'use client';
 
-import { useEffect } from "react";
+import { useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import HeroSection from '@/components/HeroSection';
+import PackagesSection from '@/components/PackagesSection';
+import FeaturesSection from '@/components/FeaturesSection';
+import TestimonialsSection from '@/components/TestimonialsSection';
+import Footer from '@/components/Footer';
 
-const Home = () => {
-  const helloWorldApi = async () => {
-    try {
-      const response = await fetch('/api/');
-      const data = await response.json();
-      console.log(data.message);
-    } catch (e) {
-      console.error(e, `errored out requesting / api`);
-    }
-  };
+gsap.registerPlugin(ScrollTrigger);
+
+export default function HomePage() {
+  const pageRef = useRef(null);
 
   useEffect(() => {
-    helloWorldApi();
+    // Smooth scroll animations
+    gsap.utils.toArray('.animate-on-scroll').forEach((element) => {
+      gsap.fromTo(element, 
+        { opacity: 0, y: 50 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: element,
+            start: "top 80%",
+            end: "bottom 20%",
+            toggleActions: "play none none reverse"
+          }
+        }
+      );
+    });
   }, []);
 
   return (
-    <div>
-      <header className="App-header">
-        <a
-          className="App-link"
-          href="https://emergent.sh"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img src="https://avatars.githubusercontent.com/in/1201222?s=120&u=2686cf91179bbafbc7a71bfbc43004cf9ae1acea&v=4" alt="Emergent" />
-        </a>
-        <p className="mt-5">Building something incredible ~!</p>
-      </header>
-    </div>
-  );
-};
-
-function App() {
-  return (
-    <div className="App">
-      <Home />
+    <div ref={pageRef} className="min-h-screen">
+      <HeroSection />
+      <PackagesSection />
+      <FeaturesSection />
+      <TestimonialsSection />
+      <Footer />
     </div>
   );
 }
-
-export default App;
