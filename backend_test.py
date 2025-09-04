@@ -11,7 +11,7 @@ import sys
 from datetime import datetime
 
 # Configuration
-BASE_URL = "https://vacay-dashboard.preview.emergentagent.com/api"
+BASE_URL = "http://localhost:3000/api"
 ADMIN_EMAIL = "admin@holidayexplorer.com"
 ADMIN_PASSWORD = "admin123"
 
