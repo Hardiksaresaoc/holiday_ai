@@ -285,15 +285,15 @@ async function handleRoute(request, { params }) {
       let amount, currency = 'inr', name = 'Custom Package'
       
       if (packageId) {
-        const package = await db.collection('packages').findOne({ id: packageId })
-        if (!package) {
+        const packageData = await db.collection('packages').findOne({ id: packageId })
+        if (!packageData) {
           return handleCORS(NextResponse.json(
             { error: "Package not found" }, 
             { status: 404 }
           ))
         }
-        amount = package.price * 100 // Convert to paise
-        name = package.title
+        amount = packageData.price * 100 // Convert to paise
+        name = packageData.title
       } else if (customAmount) {
         amount = customAmount * 100 // Convert to paise
       } else {
