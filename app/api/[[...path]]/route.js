@@ -216,16 +216,16 @@ async function handleRoute(request, { params }) {
 
     if (route.startsWith('/packages/') && method === 'GET') {
       const packageId = route.split('/')[2]
-      const package = await db.collection('packages').findOne({ id: packageId })
+      const packageData = await db.collection('packages').findOne({ id: packageId })
       
-      if (!package) {
+      if (!packageData) {
         return handleCORS(NextResponse.json(
           { error: "Package not found" }, 
           { status: 404 }
         ))
       }
 
-      const { _id, ...cleanedPackage } = package
+      const { _id, ...cleanedPackage } = packageData
       return handleCORS(NextResponse.json(cleanedPackage))
     }
 
